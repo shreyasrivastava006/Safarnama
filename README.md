@@ -1,1 +1,3 @@
-# SafarNama
+# Safarnama
+
+Safarnama Android App Project.
