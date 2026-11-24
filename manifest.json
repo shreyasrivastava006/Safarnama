@@ -1,0 +1,19 @@
+
+{
+  "name": "Tripora Travel Planner",
+  "short_name": "Tripora",
+  "description": "Discover places, plan adventures and track travel expenses.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#101714",
+  "theme_color": "#a5e6bd",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/201/201623.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

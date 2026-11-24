@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#102019">
+<title>Safarnama | Har Safar Ki Ek Kahani</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#101914;--panel:#19251e;--panel2:#223129;--border:#2d3c32;
+--text:#f2f5f2;--muted:#9aaca0;--green:#a7e8bf;
+--accent:#69bf8b;--red:#ff8383;--radius:19px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.app{display:flex;min-height:100vh}
+.sidebar{
+width:240px;position:fixed;height:100vh;background:#131e17;
+border-right:1px solid var(--border);padding:25px 17px;
+display:flex;flex-direction:column;z-index:5
+}
+.logo{display:flex;align-items:center;gap:10px;font:800 23px Manrope;padding:0 9px 30px}
+.logo-icon{background:var(--green);color:#14251a;width:39px;height:39px;border-radius:13px;display:grid;place-items:center}
+.nav-label{font-size:10px;letter-spacing:1.5px;color:#77877c;padding:10px;margin:9px 0}
+.nav-btn{width:100%;border:0;background:transparent;color:var(--muted);padding:12px;border-radius:12px;text-align:left;margin-bottom:4px;display:flex;gap:12px;align-items:center}
+.nav-btn:hover,.nav-btn.active{background:#293b2e;color:var(--green)}
+.nav-btn.active{font-weight:700}
+.nav-btn span{width:22px;font-size:17px}
+.profile{margin-top:auto;padding:15px 8px;border-top:1px solid var(--border);display:flex;gap:10px;align-items:center}
+.avatar{width:39px;height:39px;border-radius:50%;background:var(--green);color:#14251a;display:grid;place-items:center;font-weight:800}
+.profile-name{font-size:13px;font-weight:700}
+.profile-sub{font-size:11px;color:var(--muted);margin-top:3px}
+.main{margin-left:240px;width:calc(100% - 240px);padding:30px 38px 60px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.topbar h1{font:800 27px Manrope}
+.topbar p{color:var(--muted);font-size:13px;margin-top:5px}
+.green{color:var(--green)}
+.actions{display:flex;gap:10px}
+.primary{background:var(--green);border:0;color:#14251a;font-weight:800;padding:12px 17px;border-radius:12px}
+.primary:hover{filter:brightness(1.08)}
+.secondary{background:var(--panel);border:1px solid var(--border);color:white;padding:11px 14px;border-radius:12px}
+.icon-btn{background:var(--panel);border:1px solid var(--border);color:white;width:42px;height:42px;border-radius:12px}
+.section{display:none;animation:fade .25s}
+.section.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.hero{
+background:linear-gradient(90deg,#09160edb,#09160e22),
+url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1500&q=85') center/cover;
+border-radius:24px;min-height:290px;padding:34px;display:flex;align-items:center
+}
+.hero-content{max-width:480px}
+.badge{color:var(--green);background:#a7e8bf20;border-radius:30px;padding:8px 12px;font-size:11px;font-weight:700;display:inline-block;margin-bottom:17px}
+.hero h2{font:800 38px Manrope;line-height:1.18}
+.hero p{font-size:13px;color:#d7e1d9;line-height:1.7;margin:13px 0 20px;max-width:380px}
+.hero-buttons{display:flex;gap:10px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:20px 0}
+.stat{background:var(--panel);border:1px solid var(--border);padding:17px;border-radius:17px}
+.stat-label{color:var(--muted);font-size:12px}
+.stat-value{font:800 24px Manrope;margin-top:11px}
+.stat-icon{float:right}
+.heading{display:flex;justify-content:space-between;align-items:center;margin:26px 0 15px}
+.heading h2{font:700 19px Manrope}
+.heading p{font-size:12px;color:var(--muted);margin-top:4px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.destination{background:var(--panel);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:.2s}
+.destination:hover{transform:translateY(-3px)}
+.dest-img{height:175px;position:relative}
+.dest-img img{width:100%;height:100%;object-fit:cover}
+.heart{position:absolute;right:12px;top:12px;width:37px;height:37px;border:0;border-radius:50%;background:#101914cc;color:white;font-size:20px}
+.heart.liked{color:#ff7790}
+.dest-info{padding:15px}
+.dest-info h3{font:700 16px Manrope}
+.location{font-size:12px;color:var(--muted);margin-top:5px}
+.tags{display:flex;gap:5px;margin-top:10px;flex-wrap:wrap}
+.tag{background:var(--panel2);color:var(--muted);font-size:10px;padding:5px 9px;border-radius:20px}
+.dest-bottom{display:flex;justify-content:space-between;margin-top:13px}
+.price{font-weight:700;color:var(--green);font-size:13px}
+.rating{font-size:12px;color:#e6c77d}
+.page-title{font:800 25px Manrope;margin-bottom:6px}
+.page-desc{font-size:13px;color:var(--muted);margin-bottom:21px}
+.search{width:100%;background:var(--panel);border:1px solid var(--border);color:white;padding:13px;border-radius:12px;margin-bottom:15px;outline:none}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.chip{background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:30px;font-size:12px}
+.chip.active{background:var(--green);color:#14251a;border-color:var(--green);font-weight:700}
+.trip{background:var(--panel);border:1px solid var(--border);border-radius:17px;padding:18px;margin-bottom:12px}
+.trip h3{font:700 17px Manrope}
+.trip-meta{display:flex;gap:15px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin:12px 0}
+.trip-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.trip-footer strong{color:var(--green)}
+.small-btn{background:var(--panel2);border:1px solid var(--border);color:white;padding:8px 11px;border-radius:9px;font-size:12px}
+.delete{color:var(--red)}
+.empty{background:var(--panel);border:1px dashed var(--border);border-radius:18px;padding:40px 20px;text-align:center;color:var(--muted)}
+.empty h3{color:white;margin:10px 0}
+.empty-icon{font-size:37px}
+.budget-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.box{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:20px}
+.box h3{font:700 16px Manrope;margin-bottom:15px}
+.big-money{font:800 30px Manrope;color:var(--green)}
+.row{display:flex;justify-content:space-between;margin:13px 0;font-size:13px}
+.progress{height:8px;background:var(--panel2);border-radius:20px;overflow:hidden}
+.progress div{height:100%;width:0;background:var(--green);transition:.3s}
+.expenses{margin-top:16px}
+.expense{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);font-size:13px}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:12px;color:var(--muted);margin-bottom:7px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:11px;color:white;outline:none}
+.form-group textarea{min-height:85px;resize:vertical}
+.packing{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:20px}
+.pack-item{display:flex;gap:10px;align-items:center;padding:12px;border-bottom:1px solid var(--border)}
+.pack-item input{accent-color:var(--green);width:17px;height:17px}
+.pack-item.done span{text-decoration:line-through;color:var(--muted)}
+.add-row{display:flex;gap:8px;margin-top:16px}
+.add-row input{flex:1;min-width:0;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:11px;color:white}
+.journal-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+.journal-card{padding:18px;background:var(--panel);border:1px solid var(--border);border-radius:18px}
+.journal-card h3{font:700 16px Manrope}
+.journal-card p{font-size:13px;color:var(--muted);line-height:1.7;margin-top:12px;white-space:pre-wrap}
+.journal-date{font-size:11px;color:var(--green);margin-top:8px}
+.modal-bg{position:fixed;inset:0;background:#000a;z-index:20;display:none;align-items:center;justify-content:center;padding:15px}
+.modal-bg.open{display:flex}
+.modal{background:#1b271f;border:1px solid var(--border);padding:23px;border-radius:22px;width:100%;max-width:510px;max-height:90vh;overflow:auto}
+.modal-head{display:flex;justify-content:space-between;margin-bottom:18px}
+.modal-head h2{font:800 20px Manrope}
+.close{border:0;background:none;color:white;font-size:25px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.toast{position:fixed;bottom:25px;right:25px;background:var(--green);color:#15251a;padding:13px 18px;border-radius:12px;font-weight:700;display:none;z-index:50}
+.toast.show{display:block}
+.mobile-header,.bottom-nav{display:none}
+@media(max-width:1050px){.main{padding:25px}.grid{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){
+.sidebar{display:none}
+.main{margin:0;width:100%;padding:17px 15px 100px}
+.mobile-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:23px}
+.mobile-header .logo{padding:0;font-size:21px}
+.topbar{display:none}
+.hero{min-height:280px;padding:23px}
+.hero h2{font-size:30px}
+.hero p{font-size:12px}
+.stats{gap:9px}
+.stat{padding:13px}
+.stat-value{font-size:21px}
+.grid{grid-template-columns:1fr}
+.dest-img{height:205px}
+.budget-grid,.journal-grid{grid-template-columns:1fr}
+.bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#131e17;border-top:1px solid var(--border);z-index:10;justify-content:space-around;padding:8px 3px calc(8px + env(safe-area-inset-bottom))}
+.bottom-nav button{border:0;background:none;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;padding:5px}
+.bottom-nav button span{font-size:19px}
+.bottom-nav button.active{color:var(--green)}
+.toast{bottom:85px;right:12px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<aside class="sidebar">
+<div class="logo"><div class="logo-icon">✈</div>Safarnama</div>
+<div class="nav-label">MAIN MENU</div>
+<button class="nav-btn active" data-page="home"><span>⌂</span>Dashboard</button>
+<button class="nav-btn" data-page="explore"><span>⌕</span>Explore</button>
+<button class="nav-btn" data-page="trips"><span>▣</span>My Trips</button>
+<button class="nav-btn" data-page="wishlist"><span>♡</span>Wishlist</button>
+<div class="nav-label">TRAVEL TOOLS</div>
+<button class="nav-btn" data-page="budget"><span>₹</span>Budget</button>
+<button class="nav-btn" data-page="packing"><span>✓</span>Packing List</button>
+<button class="nav-btn" data-page="journal"><span>▤</span>Journal</button>
+<div class="profile"><div class="avatar" id="avatar">S</div><div><div class="profile-name" id="sideName">Traveler</div><div class="profile-sub">Har safar ki ek kahani ✨</div></div></div>
+</aside>
+
+<main class="main">
+<div class="mobile-header"><div class="logo"><div class="logo-icon">✈</div>Safarnama</div><button class="icon-btn" onclick="editName()">👤</button></div>
+<div class="topbar"><div><h1>Namaste, <span class="green" id="welcomeName">Traveler</span> 👋</h1><p>Har safar ki ek kahani. Plan your next adventure.</p></div><div class="actions"><button class="icon-btn" onclick="editName()">👤</button><button class="primary" onclick="openTrip()">＋ Plan a trip</button></div></div>
+
+<section class="section active" id="home">
+<div class="hero"><div class="hero-content"><div class="badge">✦ HAR SAFAR KI EK KAHANI</div><h2>Safar khoobsurat.<br><span class="green">Yaadein anmol.</span></h2><p>Discover beautiful destinations, plan your journeys and collect memories that last forever.</p><div class="hero-buttons"><button class="primary" onclick="navigate('explore')">Explore destinations →</button><button class="secondary" onclick="openTrip()">＋ Plan journey</button></div></div></div>
+<div class="stats">
+<div class="stat"><div class="stat-label">My Trips <span class="stat-icon">🧳</span></div><div class="stat-value" id="sTrips">0</div></div>
+<div class="stat"><div class="stat-label">Wishlist <span class="stat-icon">❤️</span></div><div class="stat-value" id="sWish">0</div></div>
+<div class="stat"><div class="stat-label">Trip Budget <span class="stat-icon">💰</span></div><div class="stat-value" id="sBudget">₹0</div></div>
+<div class="stat"><div class="stat-label">Travel Days <span class="stat-icon">📅</span></div><div class="stat-value" id="sDays">0</div></div>
+</div>
+<div class="heading"><div><h2>Popular destinations</h2><p>Places worth adding to your bucket list</p></div><button class="secondary" onclick="navigate('explore')">View all →</button></div>
+<div class="grid" id="homeDest"></div>
+<div class="heading"><div><h2>Upcoming journeys</h2><p>Your next adventures</p></div><button class="secondary" onclick="navigate('trips')">View all →</button></div>
+<div id="homeTrips"></div>
+</section>
+
+<section class="section" id="explore">
+<h1 class="page-title">Explore the world 🌍</h1><p class="page-desc">Where will your next story begin?</p>
+<input class="search" id="search" placeholder="🔍  Search places..." oninput="renderExplore()">
+<div class="chips" id="chips"></div><div class="grid" id="exploreGrid"></div>
+</section>
+
+<section class="section" id="trips">
+<h1 class="page-title">My journeys 🧳</h1><p class="page-desc">Every journey starts with a plan.</p><div id="tripsList"></div>
+</section>
+
+<section class="section" id="wishlist">
+<h1 class="page-title">Dream destinations ❤️</h1><p class="page-desc">Places waiting for you.</p><div class="grid" id="wishGrid"></div>
+</section>
+
+<section class="section" id="budget">
+<h1 class="page-title">Travel budget 💰</h1><p class="page-desc">Plan your spending. Travel stress-free.</p>
+<div class="budget-grid">
+<div class="box"><h3>Total trip budget</h3><div class="big-money" id="budgetTotal">₹0</div><div class="row"><span>Trips</span><span id="bTrips">0</span></div><div class="row"><span>Average trip budget</span><span id="bAvg">₹0</span></div><div class="progress"><div id="bProgress"></div></div><div class="row"><span>Expenses</span><span id="bSpent">₹0</span></div></div>
+<div class="box"><h3>＋ Record expense</h3><div class="form-group"><label>Expense</label><input id="expenseName" placeholder="Food, hotel, transport"></div><div class="form-group"><label>Amount (₹)</label><input id="expenseAmount" type="number" min="1" placeholder="Amount"></div><button class="primary" onclick="addExpense()">Save expense</button></div>
+</div><div class="box expenses" style="margin-top:16px"><h3>Expense history</h3><div id="expenseList"></div></div>
+</section>
+
+<section class="section" id="packing">
+<h1 class="page-title">Packing checklist 🎒</h1><p class="page-desc">Everything you need. Nothing forgotten.</p>
+<div class="packing"><div class="heading" style="margin-top:0"><h2>Essentials</h2><button class="small-btn" onclick="resetPacking()">Reset</button></div><div class="row"><span id="packCount">0 packed</span><span id="packPercent">0%</span></div><div class="progress"><div id="packBar"></div></div><div id="packList"></div><div class="add-row"><input id="packInput" placeholder="Add item..." onkeydown="if(event.key==='Enter')addPack()"><button class="primary" onclick="addPack()">＋</button></div></div>
+</section>
+
+<section class="section" id="journal">
+<h1 class="page-title">Travel journal 📔</h1><p class="page-desc">Little moments. Big memories.</p><button class="primary" onclick="openJournal()" style="margin-bottom:18px">＋ Write a memory</button><div class="journal-grid" id="journalGrid"></div>
+</section>
+</main>
+</div>
+
+<nav class="bottom-nav">
+<button class="active" data-page="home"><span>⌂</span>Home</button>
+<button data-page="explore"><span>⌕</span>Explore</button>
+<button data-page="trips"><span>▣</span>Trips</button>
+<button data-page="wishlist"><span>♡</span>Saved</button>
+<button data-page="budget"><span>₹</span>Budget</button>
+</nav>
+
+<div class="modal-bg" id="tripModal"><div class="modal"><div class="modal-head"><h2>Plan your journey ✈️</h2><button class="close" onclick="closeModal('tripModal')">×</button></div>
+<form id="tripForm">
+<div class="form-group"><label>Destination *</label><input id="destination" required placeholder="Where are you going?"></div>
+<div class="form-row"><div class="form-group"><label>Start date *</label><input id="start" type="date" required></div><div class="form-group"><label>End date *</label><input id="end" type="date" required></div></div>
+<div class="form-row"><div class="form-group"><label>Travelers</label><input id="people" type="number" min="1" value="1"></div><div class="form-group"><label>Budget (₹)</label><input id="tripBudget" type="number" min="0" placeholder="Budget"></div></div>
+<div class="form-group"><label>Notes</label><textarea id="notes" placeholder="Hotel, places to visit, etc."></textarea></div>
+<button class="primary" style="width:100%" type="submit">Create journey</button></form></div></div>
+
+<div class="modal-bg" id="journalModal"><div class="modal"><div class="modal-head"><h2>Write a memory 📔</h2><button class="close" onclick="closeModal('journalModal')">×</button></div>
+<form id="journalForm"><div class="form-group"><label>Title</label><input id="jTitle" required placeholder="A beautiful day..."></div><div class="form-group"><label>Location</label><input id="jLocation" placeholder="Where?"></div><div class="form-group"><label>Memory</label><textarea id="jText" required placeholder="Write your story..."></textarea></div><button class="primary" style="width:100%">Save memory</button></form></div></div>
+
+<div class="modal-bg" id="nameModal"><div class="modal"><div class="modal-head"><h2>Welcome to Safarnama 👋</h2><button class="close" onclick="closeModal('nameModal')">×</button></div><div class="form-group"><label>Your name</label><input id="nameInput" placeholder="What should we call you?"></div><button class="primary" style="width:100%" onclick="saveName()">Let's go!</button></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const places=[
+{id:1,name:"Manali",location:"Himachal Pradesh, India",category:"Mountains",price:8500,rating:"4.9",tags:["Snow","Adventure"],img:"https://images.unsplash.com/photo-1626621341517-bbf3b6d7f5e3?auto=format&fit=crop&w=900&q=80"},
+{id:2,name:"Goa",location:"India",category:"Beach",price:6500,rating:"4.8",tags:["Beach","Relax"],img:"https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=900&q=80"},
+{id:3,name:"Bali",location:"Indonesia",category:"Beach",price:28000,rating:"4.9",tags:["Beach","Culture"],img:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=900&q=80"},
+{id:4,name:"Paris",location:"France",category:"City",price:65000,rating:"4.8",tags:["Romantic","Culture"],img:"https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=900&q=80"},
+{id:5,name:"Ladakh",location:"India",category:"Mountains",price:18000,rating:"4.9",tags:["Road trip","Adventure"],img:"https://images.unsplash.com/photo-1581793745862-99cfd8bf0b9e?auto=format&fit=crop&w=900&q=80"},
+{id:6,name:"Dubai",location:"UAE",category:"City",price:35000,rating:"4.7",tags:["Luxury","Shopping"],img:"https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=80"},
+{id:7,name:"Kerala",location:"India",category:"Nature",price:12000,rating:"4.8",tags:["Nature","Peace"],img:"https://images.unsplash.com/photo-1602216056096-3b40cc0a8b8a?auto=format&fit=crop&w=900&q=80"},
+{id:8,name:"Tokyo",location:"Japan",category:"City",price:72000,rating:"4.9",tags:["Culture","Food"],img:"https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=900&q=80"},
+{id:9,name:"Rishikesh",location:"India",category:"Nature",price:5500,rating:"4.7",tags:["River","Adventure"],img:"https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=900&q=80"}
+];
+const categories=["All","Mountains","Beach","City","Nature"];
+const read=(k,d)=>{try{return JSON.parse(localStorage.getItem("safarnama_"+k))??d}catch{return d}};
+const save=(k,v)=>localStorage.setItem("safarnama_"+k,JSON.stringify(v));
+let trips=read("trips",[]),wish=read("wish",[]),expenses=read("expenses",[]),journals=read("journals",[]);
+let packing=read("packing",["Passport / ID","Wallet & cash","Phone & charger","Power bank","Clothes","Toiletries","Medicines","Headphones","Sunglasses","Water bottle"].map(name=>({name,done:false})));
+let username=read("name","Traveler"),category="All";
+const money=n=>"₹"+Number(n||0).toLocaleString("en-IN");
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function toast(msg){let t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200)}
+function navigate(p){document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));document.getElementById(p).classList.add("active");document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===p));window.scrollTo({top:0,behavior:"smooth"});renderAll()}
+document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>navigate(b.dataset.page));
+function card(d){return `<article class="destination"><div class="dest-img"><img loading="lazy" src="${d.img}" alt="${esc(d.name)}" onerror="this.src='https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=80'"><button class="heart ${wish.includes(d.id)?"liked":""}" onclick="toggleWish(${d.id})">${wish.includes(d.id)?"♥":"♡"}</button></div><div class="dest-info"><h3>${esc(d.name)}</h3><div class="location">📍 ${esc(d.location)}</div><div class="tags">${d.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div><div class="dest-bottom"><span class="price">From ${money(d.price)}</span><span class="rating">★ ${d.rating}</span></div></div></article>`}
+function renderHome(){document.getElementById("homeDest").innerHTML=places.slice(0,3).map(card).join("");let upcoming=trips.filter(t=>t.start>=new Date().toISOString().slice(0,10)).slice(0,3);document.getElementById("homeTrips").innerHTML=upcoming.length?upcoming.map(tripCard).join(""):empty("🗺️","No journeys planned","Start planning your next adventure",`<button class="primary" onclick="openTrip()">Plan a trip</button>`)}
+function renderExplore(){let q=(document.getElementById("search")?.value||"").toLowerCase();document.getElementById("chips").innerHTML=categories.map(c=>`<button class="chip ${category===c?"active":""}" onclick="setCat('${c}')">${c}</button>`).join("");let a=places.filter(d=>(category==="All"||d.category===category)&&(d.name.toLowerCase().includes(q)||d.location.toLowerCase().includes(q)));document.getElementById("exploreGrid").innerHTML=a.length?a.map(card).join():empty("🔍","No places found","Try another search")}
+function setCat(c){category=c;renderExplore()}
+function toggleWish(id){wish=wish.includes(id)?wish.filter(x=>x!==id):[...wish,id];save("wish",wish);renderAll();toast(wish.includes(id)?"Added to wishlist ❤️":"Removed from wishlist")}
+function renderWish(){let a=places.filter(d=>wish.includes(d.id));document.getElementById("wishGrid").innerHTML=a.length?a.map(card).join():empty("♡","Wishlist is empty","Save places you dream of visiting",`<button class="primary" onclick="navigate('explore')">Explore</button>`)}
+function empty(icon,title,desc,button=""){return `<div class="empty"><div class="empty-icon">${icon}</div><h3>${title}</h3><p>${desc}</p><br>${button}</div>`}
+function tripCard(t){return `<article class="trip"><h3>📍 ${esc(t.destination)}</h3><div class="trip-meta"><span>📅 ${esc(t.start)} → ${esc(t.end)}</span><span>👥 ${t.people} traveler(s)</span></div>${t.notes?`<p style="color:var(--muted);font-size:13px;margin-bottom:12px">${esc(t.notes)}</p>`:""}<div class="trip-footer"><strong>Budget: ${money(t.budget)}</strong><div style="display:flex;gap:7px"><button class="small-btn" onclick="tripExpense('${t.id}')">＋ Expense</button><button class="small-btn delete" onclick="deleteTrip('${t.id}')">Delete</button></div></div></article>`}
+function renderTrips(){document.getElementById("tripsList").innerHTML=trips.length?trips.map(tripCard).join(""):empty("🧳","No trips yet","Your journeys will appear here",`<button class="primary" onclick="openTrip()">Create trip</button>`)}
+function openTrip(){document.getElementById("tripModal").classList.add("open")}
+function closeModal(id){document.getElementById(id).classList.remove("open")}
+document.getElementById("tripForm").onsubmit=e=>{e.preventDefault();if(end.value<start.value){toast("End date must be after start date");return}trips.unshift({id:Date.now().toString(),destination:destination.value,start:start.value,end:end.value,people:+people.value||1,budget:+tripBudget.value||0,notes:notes.value});save("trips",trips);e.target.reset();closeModal("tripModal");renderAll();toast("Journey created ✈️")};
+function deleteTrip(id){if(!confirm("Delete this trip?"))return;trips=trips.filter(t=>t.id!==id);save("trips",trips);renderAll();toast("Trip deleted")}
+function tripExpense(id){let amount=prompt("Expense amount (₹)");if(!amount||!Number.isFinite(+amount)||+amount<=0)return;let t=trips.find(x=>x.id===id);expenses.unshift({name:t.destination+" trip",amount:+amount,date:new Date().toLocaleDateString()});save("expenses",expenses);renderAll();toast("Expense added")}
+function renderBudget(){let total=trips.reduce((s,t)=>s+(+t.budget||0),0),spent=expenses.reduce((s,e)=>s+(+e.amount||0),0);budgetTotal.textContent=money(total);bTrips.textContent=trips.length;bAvg.textContent=money(trips.length?total/trips.length:0);bSpent.textContent=money(spent);bProgress.style.width=(total?Math.min(spent/total*100,100):0)+"%";expenseList.innerHTML=expenses.length?expenses.map(e=>`<div class="expense"><span>${esc(e.name)} <small style="color:var(--muted)">· ${esc(e.date)}</small></span><b>${money(e.amount)}</b></div>`).join(""):`<p style="color:var(--muted);font-size:13px">No expenses yet.</p>`}
+function addExpense(){let n=expenseName.value.trim(),a=+expenseAmount.value;if(!n||a<=0){toast("Enter expense and amount");return}expenses.unshift({name:n,amount:a,date:new Date().toLocaleDateString()});save("expenses",expenses);expenseName.value="";expenseAmount.value="";renderAll();toast("Expense saved 💰")}
+function renderPacking(){let done=packing.filter(p=>p.done).length;packCount.textContent=`${done} of ${packing.length} packed`;packPercent.textContent=(packing.length?Math.round(done/packing.length*100):0)+"%";packBar.style.width=(packing.length?done/packing.length*100:0)+"%";packList.innerHTML=packing.map((p,i)=>`<label class="pack-item ${p.done?"done":""}"><input type="checkbox" ${p.done?"checked":""} onchange="togglePack(${i})"><span>${esc(p.name)}</span><button class="small-btn delete" type="button" style="margin-left:auto" onclick="removePack(${i})">×</button></label>`).join("")}
+function togglePack(i){packing[i].done=!packing[i].done;save("packing",packing);renderPacking()}
+function addPack(){let v=packInput.value.trim();if(!v)return;packing.push({name:v,done:false});save("packing",packing);packInput.value="";renderPacking()}
+function removePack(i){packing.splice(i,1);save("packing",packing);renderPacking()}
+function resetPacking(){packing.forEach(p=>p.done=false);save("packing",packing);renderPacking();toast("Checklist reset")}
+function openJournal(){journalModal.classList.add("open")}
+journalForm.onsubmit=e=>{e.preventDefault();journals.unshift({title:jTitle.value,location:jLocation.value,text:jText.value,date:new Date().toLocaleDateString()});save("journals",journals);e.target.reset();closeModal("journalModal");renderJournal();toast("Memory saved 📔")}
+function renderJournal(){journalGrid.innerHTML=journals.length?journals.map(j=>`<article class="journal-card"><h3>${esc(j.title)}</h3><div class="journal-date">📍 ${esc(j.location||"Travel memory")} · ${esc(j.date)}</div><p>${esc(j.text)}</p></article>`).join(""):empty("📔","No memories yet","Start collecting your stories")}
+function editName(){nameInput.value=username==="Traveler"?"":username;nameModal.classList.add("open")}
+function saveName(){let n=nameInput.value.trim();if(!n)return;username=n;save("name",n);closeModal("nameModal");updateName();toast("Welcome "+n+"! ✨")}
+function updateName(){welcomeName.textContent=username;sideName.textContent=username;avatar.textContent=username[0].toUpperCase()}
+function renderStats(){sTrips.textContent=trips.length;sWish.textContent=wish.length;sBudget.textContent=money(trips.reduce((s,t)=>s+(+t.budget||0),0));sDays.textContent=trips.reduce((s,t)=>s+Math.max(1,Math.round((new Date(t.end)-new Date(t.start))/86400000)+1),0)}
+function renderAll(){renderStats();renderHome();renderExplore();renderTrips();renderWish();renderBudget();renderPacking();renderJournal();updateName()}
+document.querySelectorAll(".modal-bg").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)closeModal(m.id)}));
+renderAll();
+if(username==="Traveler")setTimeout(editName,350);
+</script>
+</body>
+</html>
